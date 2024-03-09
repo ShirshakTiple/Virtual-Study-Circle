@@ -37,7 +37,11 @@ const SignupForm = () => {
             navigate('/login');
         })
         .catch((error) => {
-            console.log('Unable to register');
+            if (error.response && error.response.status === 400 && error.response.data.error === 'User already exists') {
+                alert('User already exists');
+            } else {
+                console.log('Unable to register');
+            }
         });
     };
     
