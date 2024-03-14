@@ -14,14 +14,14 @@ const Hero = () => {
                             <button className="primary-btn">
                                 GET STARTED NOW <i className='fa fa-long-arrow-alt-right'></i>
                             </button>
-                            <button >
+                            <button className='view_course'>
                                 VIEW COURSES <i className='fa fa-long-arrow-alt-right'></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
-            <div className="margin"></div>
+            <div className="marigin"></div>
         </div>
     )
 }

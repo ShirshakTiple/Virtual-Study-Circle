@@ -1,8 +1,16 @@
 import React from 'react'
+import Back from "../common/back/back"
+import AboutCard from "./aboutCard"
+import Header from '../common/heading/header';
+
 
 const About = () => {
     return (
-        <div>A</div>
+        <>
+            <Header />
+            <Back title="About us" />
+            <AboutCard />
+        </>
     )
 }
 
