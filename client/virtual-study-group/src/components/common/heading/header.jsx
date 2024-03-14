@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import Head from './head';
-import { Link , useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import "./header.css";
 
 const Header = () => {
     const [click, setClick] = useState(false);
-    const  isUserSignedIn = !!localStorage.getItem('token');
+    const isUserSignedIn = !!localStorage.getItem('token');
     const navigate = useNavigate();
 
-    const handleSignOut = () =>{
+    const handleSignOut = () => {
         localStorage.removeItem('token');
         navigate('/login');
     }
@@ -19,20 +19,20 @@ const Header = () => {
             <header>
                 <nav className='flexSB'>
                     <ul className={click ? "mobile-nav" : "flexSB"} onClick={() => setClick(false)}>
-                        { isUserSignedIn ? (
+                        {isUserSignedIn ? (
                             <>
-                            <li><button onClick={handleSignOut}>LogOut</button></li>
-                            <li><Link to="/home">Home</Link></li>
-                            <li><Link to="/courses">Courses</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                            <li><Link to="/contact">Contact</Link></li>
+                                <li><Link to="/home">Home</Link></li>
+                                <li><Link to="/courses">Options</Link></li>
+                                <li><Link to="/about">About</Link></li>
+                                <li><Link to="/contact">Contact</Link></li>
+                                <li><button id="logout_btn" onClick={handleSignOut}>Logout</button></li>
                             </>
                         ) : (
                             <>
-                            <li><Link to="/home">Home</Link></li>
-                            <li><Link to="/courses">Courses</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                            <li><Link to="/contact">Contact</Link></li>
+                                <li><Link to="/home">Home</Link></li>
+                                <li><Link to="/courses">Options</Link></li>
+                                <li><Link to="/about">About</Link></li>
+                                <li><Link to="/contact">Contact</Link></li>
                             </>
                         )}
                     </ul>
