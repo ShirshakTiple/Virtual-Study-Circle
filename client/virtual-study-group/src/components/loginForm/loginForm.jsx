@@ -19,7 +19,7 @@ const LoginForm = () => {
 
     const fetchUsers = () => {
         axios
-        .get('http://localhost:3001/register')
+        .get('http://localhost:3001/auth/users')
         .then(
             (res) => console.log(res.data),
         )
@@ -28,7 +28,7 @@ const LoginForm = () => {
     const handleLogin = async (event) => {
         event.preventDefault();
         try{
-            const response = await axios.post('http://localhost:3001/login', {email , password})
+            const response = await axios.post('http://localhost:3001/auth/login', {email , password})
             const token = response.data.token
             alert('Login successful')
             setEmail('')
