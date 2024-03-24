@@ -6,8 +6,8 @@ import About from './components/about/about';
 // import Header from './components/common/heading/header'
 import CoursesHome from './components/allcourses/coursesHome';
 import Resource from './components/resources/resources';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ChatPage from './components/ChatPage/ChatPage';
 
 
 function App() {
@@ -20,9 +20,9 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/login/signup" element={<SignupForm />} />
         {isUserSignedIn && <Route path="/home" element={<Home />} />}
+        {isUserSignedIn && <Route path="/home/chats" element={<ChatPage />} />}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CoursesHome />} />
-
         <Route path="/resources" element={<Resource />} />
       </Routes>
     </Router>

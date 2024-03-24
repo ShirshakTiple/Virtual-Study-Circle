@@ -1,186 +1,82 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('./models/userSchema');
-const File = require('./models/fileSchema');
-const SECRET_KEY = 'secret_key';
-const multer = require('multer');
-//connect to express app
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
+const fileRoutes = require('./routes/fileRoutes');
+const chatRoutes = require('./routes/chatRoutes')
+const messageRoutes = require("./routes/messageRoutes")
+const Message = require('./models/messageModel')
+const Chat = require('./models/chatModel')
+const User = require('./models/userSchema')
 const app = express();
 
-//connect to Mongodb
-const dbURI = 'mongodb+srv://se_project:se_project@cluster0.qqtl6xn.mongodb.net/Project?retryWrites=true&w=majority&appName=Cluster0'
-mongoose.connect(dbURI,{
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-}).then(app.listen(3001) ,() => {
-    console.log('Server is running on port 3000');
+// Connect to MongoDB
+const dbURI = require('./config').dbURI;
+mongoose.connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('Connected to MongoDB');
 }).catch((error) => {
-    console.log('unable to connect')
-})
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+});
 
-
-//middleware
+// Middleware
 app.use(bodyParser.json());
 app.use(cors());
 
+// Routes
+app.use('/auth', authRoutes);
+app.use('/file', fileRoutes);
+app.use('/chat',chatRoutes);
+app.use('/messages',messageRoutes)
 
-//Routes
-app.post('/register', async (req, res) => {
-    try {
-        const { email, name, password } = req.body
-        const hashedPassword = await bcrypt.hash(password, 10)
-        const existingUser = await User.findOne({ email: email})
-        if(existingUser){
-            return res.status(400).json({
-                error: 'User already exists'
-            })
-        }
-        const newUser = new User({
-            email, name, password: hashedPassword, role: 0
-        })
-        await newUser.save()
-        res.status(201).json({
-            message: 'User registered successfully'
-        })
-    }
-    catch (error) {
-        res.status(500).json({
-            error: 'Error registering'
-        })
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
+const PORT = process.env.PORT || 3001;
+const server= app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+const io = require('socket.io')(server,{
+    pingTimeout: 60000,
+    cors:{
+        origin:"http://localhost:3000",
     }
 })
 
-app.get('/register', async (req, res) => {
-    try {
-        const users = await User.find()
-        res.status(200).json(users)
-    }
-    catch (error) {
-        res.status(500).json({
-            error: 'Unable to find users'
+io.on("connection",(socket)=>{
+    console.log("connected to socket.io")
+
+    socket.on('setup',(userData)=>{
+          socket.join(userData.id)
+          console.log(userData.id)
+          socket.emit("connected")
+    })
+
+    socket.on('join chat',(room)=>{
+        socket.join(room)
+        console.log('User joined',room)
+    })
+
+    socket.on("typing",(room)=> socket.in(room).emit("typing"))
+    socket.on("stop typing",(room)=> socket.in(room).emit("stop typing"))
+
+    socket.on('new message',(newMessageReceived)=>{
+        var chat= newMessageReceived.chat
+        if(!chat.users) return console.log('chat.users not defined')
+
+        chat.users.forEach(user=>{
+            if(user._id == newMessageReceived.sender._id) return;
+            socket.in(user._id).emit("message recieved", newMessageReceived)
         })
-    }
+    })
 })
 
-
-app.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email })
-        if (user) {
-            const isMatch = await bcrypt.compare(password, user.password)
-            if (isMatch) {
-                const token = jwt.sign({
-                    _id: user._id,
-                    role: user.role
-                }, SECRET_KEY, { expiresIn: '1hr' })
-                res.status(200).json({
-                    message: 'Login Success'
-                })
-            }
-            else {
-                res.status(401).json({
-                    message: 'Invalid credentials'
-                })
-            }
-        }
-        else {
-            res.status(401).json({
-                message: 'Invalid credentials'
-            })
-        }
-    }
-    catch (error) {
-        res.status(500).json({
-            error: 'Error logging in'
-        })
-    }
-})
-
-
-//upload files
-const storage = multer.memoryStorage(); // Store file in memory
-const upload = multer({ storage: storage });
-
-app.post('/upload', upload.single('file'), async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ error: 'No file' });
-        }
-
-        const { title } = req.body;
-        
-        // Check if a file with the same title already exists
-        const existingFile = await File.findOne({ title });
-        if (existingFile) {
-            return res.status(400).json({ error: 'Same title' });
-        }
-
-        // Save file content and metadata to MongoDB
-        const buffer = req.file.buffer; // Get file content as buffer\
-        const existingContentFile = await File.findOne({ data: buffer });
-        if (existingContentFile) {
-            return res.status(400).json({ error: 'Same file' });
-        }
-        const uploadDate = new Date();
-        const file = new File({
-            title,
-            filename: req.file.originalname,
-            contentType: req.file.mimetype,
-            uploadDate,
-            data: buffer
-        });
-        await file.save();
-        res.status(200).send('File uploaded successfully');
-    } catch (error) {
-        res.status(500).send('Error uploading file');
-    }
-});
-
-app.get('/files/:title', async (req, res) => {
-    try {
-        const fileTitle = req.params.title;
-        const file = await File.findOne({ title: fileTitle });
-
-        if (!file) {
-            return res.status(404).json({ error: 'File not found' });
-        }
-
-        res.set('Content-Type', file.contentType);
-        res.send(file.data);
-    } catch (error) {
-        console.error('Error retrieving file:', error);
-        res.status(500).send('Error retrieving file');
-    }
-});
-
-
-app.get('/files', async (req, res) => {
-    try {
-        const files = await File.find({}, { title: 1 , filename: 1 }); // Retrieve only titles
-        res.status(200).json(files);
-    } catch (error) {
-        console.error('Error fetching files list:', error);
-        res.status(500).json({ error: 'Error fetching files list' });
-    }
-});
-
-app.delete('/files/:title', async (req, res) => {
-    try {
-        const title = req.params.title;
-        const deletedFile = await File.findOneAndDelete({title: title});
-
-        if (!deletedFile) {
-            return res.status(404).json({ error: 'File not found' });
-        }
-
-        res.status(200).json({ message: 'File deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting file:', error);
-        res.status(500).json({ error: 'Error deleting file' });
-    }
-});
+module.exports = app;
