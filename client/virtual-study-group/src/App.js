@@ -8,6 +8,8 @@ import CoursesHome from './components/allcourses/coursesHome';
 import Resource from './components/resources/resources';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChatPage from './components/ChatPage/ChatPage';
+import VideoCall from './components/VideoCall/VideoCall'
+import Room from './components/VideoCall/Room';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="/login/signup" element={<SignupForm />} />
         {isUserSignedIn && <Route path="/home" element={<Home />} />}
         {isUserSignedIn && <Route path="/home/chats" element={<ChatPage />} />}
+        {isUserSignedIn && <Route path="/home/VideoCall" element={<VideoCall />} />}
+        {isUserSignedIn && <Route path="/room/:roomID" element={<Room />} />}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CoursesHome />} />
         <Route path="/resources" element={<Resource />} />

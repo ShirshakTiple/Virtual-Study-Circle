@@ -1,0 +1,21 @@
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.enter{
+    font: bold;
+    font-size: 20px;
+    padding-top: 12px;
+}
+
+.input{
+    background-color: blue;
+}
+
+.input::placeholder{
+    color: white;
+    padding: 2px;
+}
