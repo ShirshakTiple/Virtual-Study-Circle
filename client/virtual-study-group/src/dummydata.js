@@ -46,6 +46,7 @@ export const coursesCard = [
     id: 1,
     cover: "../images/courses/c1.png",
     coursesName: "Video Chat",
+    web_link: "/videochat",
     courTeacher: [
       {
         dcover: "./images/back.webp",
@@ -60,6 +61,7 @@ export const coursesCard = [
     id: 2,
     cover: "../images/courses/c2.png",
     coursesName: "Resource Sharing",
+    web_link: "/resource",
     courTeacher: [
       {
         dcover: "./images/back.webp",
@@ -74,6 +76,7 @@ export const coursesCard = [
     id: 3,
     cover: "../images/courses/c3.png",
     coursesName: "Group Chat",
+    web_link: "/groupchat",
     courTeacher: [
       {
         dcover: "./images/back.webp",
@@ -88,6 +91,7 @@ export const coursesCard = [
     id: 4,
     cover: "../images/courses/c4.png",
     coursesName: "Discussion Forum",
+    web_link: "/forum",
     courTeacher: [
       {
         dcover: "./images/back.webp",

@@ -22,8 +22,7 @@ function App() {
         {isUserSignedIn && <Route path="/home" element={<Home />} />}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CoursesHome />} />
-
-        <Route path="/resources" element={<Resource />} />
+        <Route path="/resource" element={<Resource />} />
       </Routes>
     </Router>
   );

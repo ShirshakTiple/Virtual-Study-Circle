@@ -1,10 +1,12 @@
 import React from 'react'
 import { coursesCard } from '../../dummydata'
 import './courses.css'
+import { Link } from 'react-router-dom';
 
 
 
 const CoursesCard = () => {
+
     return (
         <>
             <section className="coursesCard">
@@ -33,9 +35,6 @@ const CoursesCard = () => {
                                             {val.courTeacher.map((details) => (
                                                 <>
                                                     <div className="box">
-                                                        {/* <div className="dimg">
-                                                            <img src={details.dcover} alt='' />
-                                                        </div> */}
                                                         <div className="para">
                                                             <h4>{details.name}</h4>
                                                         </div>
@@ -49,7 +48,8 @@ const CoursesCard = () => {
                                 <div className='price'>
                                     <h3>{val.priceAll}</h3>
                                 </div>
-                                <button className="outline-btn">EXPLORE</button>
+                                <Link to={val.web_link}><button className="outline-btn" >EXPLORE</button></Link>
+
                             </div>
                         )
                     })}
