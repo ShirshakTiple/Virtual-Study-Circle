@@ -21,18 +21,29 @@ const SingleChat= ({fetchAgain, setFetchAgain})=>{
     
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newMessage, setNewMessage] = useState("");
+  //const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
-    const {selectedChat, setSelectedChat, notification, setNotification}= ChatState()
+    const {selectedChat, setSelectedChat, notification, setNotification, newMessage, setNewMessage, share, setShare}= ChatState()
     const user = {
         name: localStorage.getItem('name'),
         token: localStorage.getItem('token'),
         id: localStorage.getItem('id'),
         email: localStorage.getItem('email')
       };
+    
+    const roomID= localStorage.getItem('roomId') 
+    console.log(roomID) 
+
+      useEffect(()=>{
+        if( share== false){
+             const url = `http://localhost:3000/room/${roomID}`; 
+             setNewMessage(`Click to join meeting: ${url}`); 
+             setShare(true)
+        }
+      },[share])
 
       useEffect(() => {
         socket = io(ENDPOINT);
