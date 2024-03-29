@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import './resources.css';
+
 function Resource() {
     const [title, setTitle] = useState('');
     const [file, setFile] = useState('');
@@ -38,23 +40,23 @@ function Resource() {
             // Refresh files list after upload
             fetchFilesList();
         } catch (error) {
-            if(error.response){
-                if(error.response.status === 400){
-                    if(error.response.data.error === 'No file'){
+            if (error.response) {
+                if (error.response.status === 400) {
+                    if (error.response.data.error === 'No file') {
                         alert('No file selected');
                     }
-                    else if(error.response.data.error === 'Same title'){
+                    else if (error.response.data.error === 'Same title') {
                         alert('File with same title already exists');
                     }
-                    else if(error.response.data.error === 'Same file'){
+                    else if (error.response.data.error === 'Same file') {
                         alert('Same file already exists with different title');
                     }
                 }
-                else if(error.response.status === 500){
+                else if (error.response.status === 500) {
                     alert('Error uploading file');
                 }
             }
-            else{
+            else {
                 alert('Error uploading file');
             }
         }
@@ -65,25 +67,25 @@ function Resource() {
         axios.get(`http://localhost:3001/file/${encodeURIComponent(fileTitle)}`, {
             responseType: 'blob' // Set response type to blob
         })
-        .then(response => {
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
-        })
-        .catch(error => {
-            console.error('Error fetching file:', error);
-            // Handle error, e.g., display an error message to the user
-        });
+            .then(response => {
+                const blob = new Blob([response.data], { type: response.headers['content-type'] });
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            })
+            .catch(error => {
+                console.error('Error fetching file:', error);
+                // Handle error, e.g., display an error message to the user
+            });
     }
 
     const handleDeleteFile = async (title) => {
         try {
             // Make a DELETE request to your backend endpoint to delete the file
-            await axios.delete(`http://localhost:3001/file/${title}`);
-    
+            await axios.delete(`http://localhost:3001/files/${title}`);
+
             // Update the files list after deletion
             fetchFilesList();
-    
+
             // Optionally, you can display a success message to the user
             alert('File deleted successfully');
         } catch (error) {
@@ -91,43 +93,46 @@ function Resource() {
             console.error('Error deleting file:', error);
             alert('Error deleting file');
         }
-    }    
-    
-    return (
-        <div>
-            <h1>Resource</h1>
-            <form onSubmit={submitFile}>
-                <h4>Upload</h4>
-                <input type="text" placeholder='Title' value={title} required onChange={(e) => setTitle(e.target.value)} /><br />
-                <input type="file" name='file' accept='application/pdf' required onChange={(e) => setFile(e.target.files[0])} /><br />
-                <button type='submit'>
-                    Submit
-                </button>
-            </form>
+    }
 
-            <h4>List of Files</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Filename</th>
-                        <th>View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filesList.map((file) => (
-                        <tr key={file._id}>
-                            <td>{file.title}</td>
-                            <td>{file.filename}</td>
-                            <td>
-                                <button onClick={() => handleViewFile(file.title)}>View</button>
-                                <button onClick={() => handleDeleteFile(file.title)}>Delete</button>
-                            </td>
+    return (
+        <section className="outside-wrapper">
+            <h1 className='heading_res'>Resource Sharing</h1>
+            <div className="container-outer">
+
+                <form onSubmit={submitFile}>
+                    <h4 className='upload'>Upload</h4>
+                    <input className="title_section" type="text" placeholder='' value={title} required onChange={(e) => setTitle(e.target.value)} /><br />
+                    <input className="file_upload" type="file" name='file' accept='application/pdf' required onChange={(e) => setFile(e.target.files[0])} /><br />
+                    <button className="submit-btn" type='submit'>
+                        Submit
+                    </button>
+                </form>
+
+                <h4 className='list_files'>List of Files</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Filename</th>
+                            <th>View</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {filesList.map((file) => (
+                            <tr key={file._id}>
+                                <td>{file.title}</td>
+                                <td>{file.filename}</td>
+                                <td>
+                                    <button onClick={() => handleViewFile(file.title)}>View</button>
+                                    <button onClick={() => handleDeleteFile(file.title)}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </section>
     )
 }
 
