@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const fileRoutes = require('./routes/fileRoutes');
+const forumRoutes = require('./routes/forumRoutes');
 const app = express();
 
 // Connect to MongoDB
@@ -25,6 +26,7 @@ app.use(cors());
 // Routes
 app.use('/auth', authRoutes);
 app.use('/file', fileRoutes);
+app.use('/forum', forumRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
