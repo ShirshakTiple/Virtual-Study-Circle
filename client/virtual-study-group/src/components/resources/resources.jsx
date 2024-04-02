@@ -14,7 +14,7 @@ function Resource() {
 
     const fetchFilesList = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/files");
+            const response = await axios.get("http://localhost:3001/file");
             setFilesList(response.data);
         } catch (error) {
             console.error('Error fetching files list:', error);
@@ -29,7 +29,7 @@ function Resource() {
             formData.append('file', file);
             formData.append('title', title);
 
-            await axios.post("http://localhost:3001/upload", formData, {
+            await axios.post("http://localhost:3001/file/upload", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -64,7 +64,7 @@ function Resource() {
 
     const handleViewFile = (fileTitle) => {
         // Implement file view functionality, e.g., open in a new tab or download
-        axios.get(`http://localhost:3001/files/${encodeURIComponent(fileTitle)}`, {
+        axios.get(`http://localhost:3001/file/${encodeURIComponent(fileTitle)}`, {
             responseType: 'blob' // Set response type to blob
         })
             .then(response => {

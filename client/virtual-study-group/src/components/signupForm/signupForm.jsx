@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
-    const [user , setUsers] = useState([])
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name , setName] = useState('')
@@ -18,7 +17,7 @@ const SignupForm = () => {
 
     const fetchUsers = () => {
         axios
-        .get('http://localhost:3001/register')
+        .get('http://localhost:3001/auth/users')
         .then(
             (res) => console.log(res.data),
         )
@@ -27,7 +26,7 @@ const SignupForm = () => {
     const handleSignup = (event) => {
         event.preventDefault();
         axios
-        .post('http://localhost:3001/register', { email, name, password })
+        .post('http://localhost:3001/auth/register', { email, name, password })
         .then(() => {
             alert('Registration Success');
             setEmail('');
