@@ -6,12 +6,46 @@ import './forum_02.css';
 const Forum = () => {
     const [title, setTitle] = useState("");
     const [thread, setThread] = useState("");
+    const [file, setFile] = useState(null);
     const [threads, setThreads] = useState([]);
+    const [parentImagePreviews, setParentImagePreviews] = useState([]);
+    const [childImagePreviews, setChildImagePreviews] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchThreads();
     }, []);
+
+    useEffect(() => {
+        if (threads.length > 0) {
+            const parentPreviews = [];
+            const childPreviews = [];
+            threads.forEach(threadItem => {
+                if (threadItem.parent.file && threadItem.parent.file.contentType.startsWith('image/')) {
+                    const imageDataArray = threadItem.parent.file.data.data;
+                    const contentType = threadItem.parent.file.contentType;
+                    const imageUrl = handleImagePreview(imageDataArray, contentType);
+                    parentPreviews.push(imageUrl);
+                } else {
+                    parentPreviews.push(null);
+                }
+                const childImages = [];
+                threadItem.children.forEach(childThread => {
+                    if (childThread.file && childThread.file.contentType.startsWith('image/')) {
+                        const imageDataArray = childThread.file.data.data;
+                        const contentType = childThread.file.contentType;
+                        const imageUrl = handleImagePreview(imageDataArray, contentType);
+                        childImages.push(imageUrl);
+                    } else {
+                        childImages.push(null);
+                    }
+                });
+                childPreviews.push(childImages);
+            });
+            setParentImagePreviews(parentPreviews);
+            setChildImagePreviews(childPreviews);
+        }
+    }, [threads]);
 
     const fetchThreads = async () => {
         try {
@@ -25,11 +59,23 @@ const Forum = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('thread', thread);
+        formData.append('token', token);
+        if (file) {
+            formData.append('file', file);
+        }
         try {
-            const response = await axios.post('http://localhost:3001/forum/createThread', { title, thread, token });
+            const response = await axios.post("http://localhost:3001/forum/createThread", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             if (response.status === 200) {
                 setTitle('');
                 setThread('');
+                setFile(null);
                 alert('Thread created successfully');
                 fetchThreads();
             } else {
@@ -50,6 +96,11 @@ const Forum = () => {
         navigate('/login');
     };
 
+    const handleImagePreview = (imageDataArray, contentType) => {
+        const uint8Array = new Uint8Array(imageDataArray);
+        const blob = new Blob([uint8Array], { type: contentType });
+        return URL.createObjectURL(blob);
+    };
 
     return (
         <main className='forum'>
@@ -60,12 +111,12 @@ const Forum = () => {
                     <input type='text' name='threadTitle' required value={title} onChange={(e) => setTitle(e.target.value)} />
                     <label>Content</label>
                     <textarea name='threadContent' required value={thread} onChange={(e) => setThread(e.target.value)}></textarea>
+                    <input className="file_upload" type="file" name='file' onChange={(e) => setFile(e.target.files[0])} /><br />
                 </div>
                 <button className='forumBtn' type="submit">CREATE THREAD</button>
             </form>
             <button className='signout' onClick={handleSignOut}>Sign Out</button>
 
-            {/* Display Threads */}
             <div className="threads">
                 {threads.map((threadItem, index) => (
                     <div key={index} className="thread">
@@ -73,8 +124,16 @@ const Forum = () => {
                         <p>Created at: {new Date(threadItem.parent.created_at).toLocaleString()}</p>
                         <p>User_id : {threadItem.parent.user_id.name}</p>
                         <p>{threadItem.parent.message}</p>
+                        {threadItem.parent.file && (
+                            <div>
+                                <p>File Name: {threadItem.parent.file.fileName}</p>
+                                <p>File Type: {threadItem.parent.file.contentType}</p>
+                                {parentImagePreviews[index] && (
+                                    <img src={parentImagePreviews[index]} alt="Preview" />
+                                )}
+                            </div>
+                        )}
 
-                        {/* Display child threads */}
                         {threadItem.children.length > 0 && (
                             <div className="child-threads">
                                 {threadItem.children.map((childThread, childIndex) => (
@@ -83,20 +142,25 @@ const Forum = () => {
                                         <p>Created at: {new Date(childThread.created_at).toLocaleString()}</p>
                                         <p>User_id : {childThread.user_id.name}</p>
                                         <p>{childThread.message}</p>
-                                        {/* <button onClick={() => handleReplyClick(childThread._id)}>Reply</button> */}
-                                        {/* You can display more information here */}
+                                        {childThread.file && (
+                                            <div>
+                                                <p>File Name: {childThread.file.fileName}</p>
+                                                <p>File Type: {childThread.file.contentType}</p>
+                                                {childImagePreviews[index] && childImagePreviews[index][childIndex] && (
+                                                    <img src={childImagePreviews[index][childIndex]} alt="Preview" />
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
                         )}
 
-                        {/* Button to reply to parent thread */}
                         <button onClick={() => handleReplyClick(threadItem.parent._id)}>Reply</button>
                     </div>
                 ))}
             </div>
         </main>
-
     );
 };
 
