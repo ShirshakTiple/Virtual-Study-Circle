@@ -21,23 +21,19 @@ export const homeAbout = [
 export const awrapper = [
   {
     cover: "https://cdn-icons-png.flaticon.com/128/2492/2492450.png",
-    // data: "3,000",
     title: "SILENT CLASSROOM",
   },
 
   {
     cover: "https://cdn-icons-png.flaticon.com/128/14979/14979269.png",
-    // data: "320",
     title: "RESOURCE SHARING",
   },
   {
     cover: "https://cdn-icons-png.flaticon.com/128/4389/4389438.png",
-    // data: "1,000",
     title: "GROUP CHAT",
   },
   {
     cover: "https://cdn-icons-png.flaticon.com/128/10759/10759333.png",
-    // data: "587",
     title: "DISCUSSION FORUM",
   },
 ]
@@ -51,11 +47,9 @@ export const coursesCard = [
       {
         dcover: "./images/back.webp",
         name: "by Sidhesh Lawangare",
-        // totalTime: "50 lectures (190 hrs)",
       },
     ],
     priceAll: "Connect / Participate / Converse",
-    // pricePer: "$15 per month",
   },
   {
     id: 2,
@@ -66,11 +60,9 @@ export const coursesCard = [
       {
         dcover: "./images/back.webp",
         name: "by Vibhav Pande",
-        // totalTime: "30 lectures (125 hrs)",
       },
     ],
     priceAll: "Share / Exchange / Collaborate",
-    // pricePer: "$25 per month",
   },
   {
     id: 3,
@@ -81,7 +73,6 @@ export const coursesCard = [
       {
         dcover: "./images/back.webp",
         name: "by Sidhesh Lawangare",
-        // totalTime: "50 lectures (50 hrs)",
       },
     ],
     priceAll: "Socialize / Communicate / Interact",

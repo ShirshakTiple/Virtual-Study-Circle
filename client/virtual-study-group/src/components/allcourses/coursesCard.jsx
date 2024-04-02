@@ -49,7 +49,6 @@ const CoursesCard = () => {
                                     <h3>{val.priceAll}</h3>
                                 </div>
                                 <Link to={val.web_link}><button className="outline-btn" >EXPLORE</button></Link>
-
                             </div>
                         )
                     })}
