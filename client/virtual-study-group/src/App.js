@@ -27,7 +27,7 @@ function App() {
         <Route path="/courses" element={<CoursesHome />} />
         {isUserSignedIn && <Route path="/forum" element={<Forum />} />}
         <Route path="/replies/:threadId" element={<Replies />} />
-        <Route path="/resources" element={<Resource />} />
+        <Route path="/resource" element={<Resource />} />
       </Routes>
     </Router>
   );

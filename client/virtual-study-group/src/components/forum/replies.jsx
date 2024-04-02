@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useParams , useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import './replies_02.css';
 
 const Replies = () => {
     const { threadId } = useParams();
@@ -12,7 +13,7 @@ const Replies = () => {
         const token = localStorage.getItem('token');
         console.log(reply)
         axios
-            .post("http://localhost:3001/forum/threadReply", { reply , threadId , token})
+            .post("http://localhost:3001/forum/threadReply", { reply, threadId, token })
             .then(response => {
                 if (response.status === 200) {
                     alert('Reply added successfully');

@@ -1,0 +1,51 @@
+/* Replies Page based on the existing theme */
+.replies {
+    font-family: 'Exo 2', sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.replies label {
+    font-size: 20px;
+    color: #333;
+}
+
+.replies textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.replies .modalBtn {
+    background-color: #007bff;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.replies .modalBtn:hover {
+    background-color: #0056b3;
+}
+
+/* Ensure consistency with image upload sizes */
+img.uploadedImage {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 10px;
+}
