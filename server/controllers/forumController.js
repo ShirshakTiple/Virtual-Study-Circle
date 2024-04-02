@@ -8,6 +8,13 @@ exports.createThread = async (req, res) => {
         const { title, thread, token } = req.body;
         const decoded = jwt.verify(token, SECRET_KEY)
         const newForum = new Forum({ user_id: decoded._id, title: title, message: thread });
+        if (req.file) {
+            newForum.file = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+                fileName: req.file.originalname
+            }
+        }
         await newForum.save();
         res.status(200).json({ message: 'Thread created successfully' });
     }
@@ -16,7 +23,7 @@ exports.createThread = async (req, res) => {
     }
 }
 
- // Assuming the model file is in the same directory
+// Assuming the model file is in the same directory
 exports.getThreads = async (req, res) => {
     try {
         const threads = await Forum.find()
@@ -40,7 +47,7 @@ exports.getThreads = async (req, res) => {
             return acc;
         }, []);
 
-        console.log(threadsHierarchy);
+        // console.log(threadsHierarchy);
 
         res.status(200).json(threadsHierarchy); // Send the transformed hierarchical structure to the frontend
     } catch (error) {
@@ -56,6 +63,13 @@ exports.threadReply = async (req, res) => {
         const { reply, threadId, token } = req.body;
         const decoded = jwt.verify(token, SECRET_KEY)
         const newReply = await Forum({ user_id: decoded._id, parent_thread: threadId, message: reply })
+        if (req.file) {
+            newReply.file = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+                fileName: req.file.originalname
+            }
+        }
         await newReply.save();
         const updatedThread = await Forum.findByIdAndUpdate(threadId, { $push: { child_threads: newReply._id } }, { new: true });
         res.status(200).json({ message: "success" })
@@ -64,16 +78,16 @@ exports.threadReply = async (req, res) => {
     }
 }
 
-exports.getThread = async (req, res) => {
-    try {
-        const threadId = req.params.childThreadId; // Extract the thread ID from the request parameters
-        const thread = await Forum.findById(threadId); // Find the thread by its ID in the database
-        if (!thread) {
-            return res.status(404).json({ error: 'Thread not found' }); // Thread not found
-        }
-        return thread; // Return the thread object
-    } catch (error) {
-        console.error('Error fetching thread:', error);
-        throw new Error('Internal server error'); // Throw an error
-    }
-};
+// exports.getThread = async (req, res) => {
+//     try {
+//         const threadId = req.params.childThreadId; // Extract the thread ID from the request parameters
+//         const thread = await Forum.findById(threadId); // Find the thread by its ID in the database
+//         if (!thread) {
+//             return res.status(404).json({ error: 'Thread not found' }); // Thread not found
+//         }
+//         return thread; // Return the thread object
+//     } catch (error) {
+//         console.error('Error fetching thread:', error);
+//         throw new Error('Internal server error'); // Throw an error
+//     }
+// };
