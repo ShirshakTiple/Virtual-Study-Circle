@@ -125,11 +125,9 @@ const Forum = () => {
                         <p>User_id : {threadItem.parent.user_id.name}</p>
                         <p>{threadItem.parent.message}</p>
                         {threadItem.parent.file && (
-                            <div>
-                                <p>File Name: {threadItem.parent.file.fileName}</p>
-                                <p>File Type: {threadItem.parent.file.contentType}</p>
+                            <div >
                                 {parentImagePreviews[index] && (
-                                    <img src={parentImagePreviews[index]} alt="Preview" />
+                                    <img className='upload-image' src={parentImagePreviews[index]} alt="Preview" />
                                 )}
                             </div>
                         )}
@@ -143,11 +141,9 @@ const Forum = () => {
                                         <p>User_id : {childThread.user_id.name}</p>
                                         <p>{childThread.message}</p>
                                         {childThread.file && (
-                                            <div>
-                                                <p>File Name: {childThread.file.fileName}</p>
-                                                <p>File Type: {childThread.file.contentType}</p>
+                                            <div >
                                                 {childImagePreviews[index] && childImagePreviews[index][childIndex] && (
-                                                    <img src={childImagePreviews[index][childIndex]} alt="Preview" />
+                                                    <img className='upload-image' src={childImagePreviews[index][childIndex]} alt="Preview" />
                                                 )}
                                             </div>
                                         )}
