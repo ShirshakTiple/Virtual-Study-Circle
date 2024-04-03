@@ -1,3 +1,4 @@
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
@@ -67,3 +68,4 @@ exports.allUsers = async (req, res) => {
     const users= await User.find(keyword).find({_id:{$ne: req.userData.userId}})
     res.send(users)
 };
+

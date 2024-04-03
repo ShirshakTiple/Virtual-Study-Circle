@@ -9,6 +9,7 @@ const messageRoutes = require("./routes/messageRoutes")
 const Message = require('./models/messageModel')
 const Chat = require('./models/chatModel')
 const User = require('./models/userSchema')
+const forumRoutes = require('./routes/forumRoutes');
 const app = express();
 
 // Connect to MongoDB
@@ -32,6 +33,7 @@ app.use('/auth', authRoutes);
 app.use('/file', fileRoutes);
 app.use('/chat',chatRoutes);
 app.use('/messages',messageRoutes)
+app.use('/forum', forumRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -40,6 +42,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3001;
+
 const server= app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
@@ -78,5 +81,9 @@ io.on("connection",(socket)=>{
         })
     })
 })
+
+/*app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});*/
 
 module.exports = app;

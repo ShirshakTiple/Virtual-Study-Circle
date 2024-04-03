@@ -9,3 +9,4 @@ router.route("/users1").get(authMiddleware, authController.allUsers);
 router.post('/login', authController.loginUser);
 
 module.exports = router;
+

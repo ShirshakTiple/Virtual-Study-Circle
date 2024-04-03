@@ -26,3 +26,4 @@ const authMiddleware = async (req, res, next) => {
 };
 console.log("auth",authMiddleware)
 module.exports = {authMiddleware};
+

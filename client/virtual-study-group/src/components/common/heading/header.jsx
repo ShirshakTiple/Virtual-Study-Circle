@@ -10,6 +10,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const handleSignOut = () => {
+        alert('Signed Out');
         localStorage.removeItem('token');
         navigate('/login');
     }

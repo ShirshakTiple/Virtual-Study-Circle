@@ -33,7 +33,7 @@ const Room=()=>{
 
     return(
         <div style={{display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
-        <div ref={meeting} style={{width:"100vw", height:"100vh", marginTop:"30px"}}>
+        <div ref={meeting} style={{width:"100vw", height:"100vh", marginTop:"10px"}}>
         </div>
         <button style={{ margin:"40px", borderStyle:"solid", borderRadius:"8px", color:"white", backgroundColor:"blue", width:"150px"}} onClick={shared} >Share roomcode</button>
         </div>

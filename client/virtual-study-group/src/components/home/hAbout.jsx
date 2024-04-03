@@ -1,6 +1,7 @@
 import React from 'react'
 import Title from '../common/title/title'
 import { coursesCard } from '../../dummydata'
+import { Link } from 'react-router-dom';
 
 const HAbout = () => {
     return (
@@ -50,7 +51,7 @@ const HAbout = () => {
                                         <div className='price'>
                                             <h3>{val.priceAll}</h3>
                                         </div>
-                                        <button className="outline-btn">EXPLORE</button>
+                                        <Link to={val.web_link}><button className="outline-btn" >EXPLORE</button></Link>
                                     </div>
                                 )
                             })}

@@ -6,6 +6,9 @@ import About from './components/about/about';
 // import Header from './components/common/heading/header'
 import CoursesHome from './components/allcourses/coursesHome';
 import Resource from './components/resources/resources';
+
+import Forum from './components/forum/forum';
+import Replies from "./components/forum/replies";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ChatPage from './components/ChatPage/ChatPage';
 import VideoCall from './components/VideoCall/VideoCall'
@@ -27,7 +30,9 @@ function App() {
         {isUserSignedIn && <Route path="/room/:roomID" element={<Room />} />}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CoursesHome />} />
-        <Route path="/resources" element={<Resource />} />
+        {isUserSignedIn && <Route path="/forum" element={<Forum />} />}
+        <Route path="/replies/:threadId" element={<Replies />} />
+        <Route path="/resource" element={<Resource />} />
       </Routes>
     </Router>
   );
