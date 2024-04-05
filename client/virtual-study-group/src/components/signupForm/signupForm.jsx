@@ -23,25 +23,35 @@ const SignupForm = () => {
         )
     }
 
-    const handleSignup = (event) => {
+    const handleSignup = async (event) => {
         event.preventDefault();
-        axios
-        .post('http://localhost:3001/auth/register', { email, name, password })
-        .then(() => {
-            alert('Registration Success');
+        try {
+            const response = await axios.post('http://localhost:3001/auth/register', { email, name, password });
+            alert(response.data.message); // Display success message
             setEmail('');
             setName('');
             setPassword('');
             fetchUsers();
             navigate('/login');
-        })
-        .catch((error) => {
-            if (error.response && error.response.status === 400 && error.response.data.error === 'User already exists') {
-                alert('User already exists');
+        } catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with an error status code
+                if (error.response.status === 400) {
+                    // Client-side errors (e.g., validation errors)
+                    alert(error.response.data.error);
+                } else if (error.response.status === 500) {
+                    // Server-side error
+                    alert('An error occurred on the server. Please try again later.');
+                }
+            } else if (error.request) {
+                // The request was made but no response was received
+                alert('No response from server. Please try again later.');
             } else {
-                console.log('Unable to register');
+                // Something happened in setting up the request that triggered an Error
+                console.error('Error occurred while processing your request:', error.message);
+                alert('Error occurred while processing your request. Please try again later.');
             }
-        });
+        }
     };
     
 

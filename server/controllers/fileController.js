@@ -64,19 +64,19 @@ exports.getAllFiles = async (req, res) => {
     }
 };
 
-exports.deleteFileByTitle = async (req, res) => {
-    try {
-        const title = req.params.title;
-        const deletedFile = await File.findOneAndDelete({ title });
+// exports.deleteFileByTitle = async (req, res) => {
+//     try {
+//         const title = req.params.title;
+//         const deletedFile = await File.findOneAndDelete({ title });
 
-        if (!deletedFile) {
-            return res.status(404).json({ error: 'File not found' });
-        }
+//         if (!deletedFile) {
+//             return res.status(404).json({ error: 'File not found' });
+//         }
 
-        res.status(200).json({ message: 'File deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting file:', error);
-        res.status(500).json({ error: 'Error deleting file' });
-    }
-};
+//         res.status(200).json({ message: 'File deleted successfully' });
+//     } catch (error) {
+//         console.error('Error deleting file:', error);
+//         res.status(500).json({ error: 'Error deleting file' });
+//     }
+// };
 

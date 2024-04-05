@@ -78,22 +78,22 @@ function Resource() {
             });
     }
 
-    const handleDeleteFile = async (title) => {
-        try {
-            // Make a DELETE request to your backend endpoint to delete the file
-            await axios.delete(`http://localhost:3001/files/${title}`);
+    // const handleDeleteFile = async (title) => {
+    //     try {
+    //         // Make a DELETE request to your backend endpoint to delete the file
+    //         await axios.delete(`http://localhost:3001/files/${title}`);
 
-            // Update the files list after deletion
-            fetchFilesList();
+    //         // Update the files list after deletion
+    //         fetchFilesList();
 
-            // Optionally, you can display a success message to the user
-            alert('File deleted successfully');
-        } catch (error) {
-            // Handle errors
-            console.error('Error deleting file:', error);
-            alert('Error deleting file');
-        }
-    }
+    //         // Optionally, you can display a success message to the user
+    //         alert('File deleted successfully');
+    //     } catch (error) {
+    //         // Handle errors
+    //         console.error('Error deleting file:', error);
+    //         alert('Error deleting file');
+    //     }
+    // }
 
     return (
         <section className="outside-wrapper">
@@ -125,7 +125,7 @@ function Resource() {
                                 <td>{file.filename}</td>
                                 <td>
                                     <button onClick={() => handleViewFile(file.title)}>View</button>
-                                    <button onClick={() => handleDeleteFile(file.title)}>Delete</button>
+                                    {/* <button onClick={() => handleDeleteFile(file.title)}>Delete</button> */}
                                 </td>
                             </tr>
                         ))}
