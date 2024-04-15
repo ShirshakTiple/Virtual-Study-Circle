@@ -2,18 +2,23 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
 
+form {
+    z-index: 100;
+}
+
 .outside-wrapper {
     height: 100vh;
     /* background-color: aqua; */
-    background: url('../../../public/images/back_res_03.jpg') no-repeat;
+    background: url('../../../public/images/back_res_03.jpg');
     background-size: cover;
+    background-repeat: repeat;
 
 }
 
 .container-outer {
     max-width: 900px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
     padding: 20px;
     /* border: 1px solid black; */
     background-color: rgba(255, 255, 255, 0.4);
@@ -23,6 +28,7 @@
 
 .upload {
     font-size: 25px;
+
 }
 
 .heading_res {
@@ -31,7 +37,7 @@
     color: black;
     height: 50px;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 10px;
 
 }
 
@@ -58,9 +64,9 @@
     font-family: "Exo 2", sans-serif;
 }
 
-input#file-upload-button {
+/* #file-upload-button { ---- choose file button
     font-size: 10000px;
-}
+} */
 
 .submit-btn {
     background-color: #007bff;
@@ -93,9 +99,10 @@ th {
     background-color: #f2f2f2;
 }
 
-button {
-    padding: 8px 16px;
-    margin-right: 8px;
+.view_btn {
+    padding: 4px 8px;
+    margin-right: 4px;
+    margin-left: 8px;
     border: none;
     border-radius: 4px;
     cursor: pointer;

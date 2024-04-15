@@ -25,7 +25,7 @@ const Header = () => {
                                 <li><Link to="/home">Home</Link></li>
                                 <li><Link to="/courses">Options</Link></li>
                                 <li><Link to="/about">About</Link></li>
-                                <li><Link to="/contact">Contact</Link></li>
+                                {/* <li><Link to="/contact">Contact</Link></li> */}
                                 <li><button id="logout_btn" onClick={handleSignOut}>Logout</button></li>
                             </>
                         ) : (

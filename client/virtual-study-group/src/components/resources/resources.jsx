@@ -124,7 +124,7 @@ function Resource() {
                                 <td>{file.title}</td>
                                 <td>{file.filename}</td>
                                 <td>
-                                    <button onClick={() => handleViewFile(file.title)}>View</button>
+                                    <button className='view_btn' onClick={() => handleViewFile(file.title)}>View</button>
                                     {/* <button onClick={() => handleDeleteFile(file.title)}>Delete</button> */}
                                 </td>
                             </tr>

@@ -34,13 +34,16 @@
 
 .coursesCard {
     /* margin-top: 48%; */
-    padding: 50px 0;
+    /* padding: 50px 0; */
+    padding-top: 0px;
+    padding-bottom: 40px;
 }
 
 .coursesCard .items {
     /* margin-top: 135px; */
     background-color: #fff;
-    padding: 30px;
+    padding: 10px;
+    border-radius: 5px;
     text-align: center;
 }
 

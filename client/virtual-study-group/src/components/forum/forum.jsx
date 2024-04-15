@@ -152,7 +152,7 @@ const Forum = () => {
                             </div>
                         )}
 
-                        <button onClick={() => handleReplyClick(threadItem.parent._id)}>Reply</button>
+                        <button className="reply_btn" onClick={() => handleReplyClick(threadItem.parent._id)}>Reply</button>
                     </div>
                 ))}
             </div>

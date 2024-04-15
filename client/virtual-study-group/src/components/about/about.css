@@ -10,13 +10,15 @@
 .aboutHome .left img {
     /* Incase the alignment is wrong */
     margin-top: 2px;
+    padding-bottom: 29px;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+
 .aboutHome .right {
-    padding: 80px 50px;
+    padding: 40px 50px;
 }
 
 .aboutHome .items {
@@ -28,6 +30,8 @@
     margin-top: 30px;
     padding: 20px;
     transition: 0.5s;
+    border-radius: 10px;
+    ;
 }
 
 .aboutHome .img {

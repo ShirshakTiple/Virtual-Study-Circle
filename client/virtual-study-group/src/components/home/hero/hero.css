@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    font-size: "Exo 2", sans-serif;
+}
+
 .hero {
     background-image: url("../../../../../home_bg.jpg");
     background-size: cover;
@@ -20,9 +26,10 @@
 button.view_course,
 .primary-btn {
     padding: 17px 30px;
+    font-size: 15px;
     background-color: #fff;
     color: #1eb2a6;
-    font-weight: 600;
+    font-weight: 550;
     border: none;
     margin: 30px 10px 0 0;
     border-radius: 3px;

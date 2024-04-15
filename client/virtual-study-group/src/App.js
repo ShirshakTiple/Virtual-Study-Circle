@@ -25,8 +25,8 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/login/signup" element={<SignupForm />} />
         {isUserSignedIn && <Route path="/home" element={<Home />} />}
-        {isUserSignedIn && <Route path="/home/chats" element={<ChatPage />} />}
-        {isUserSignedIn && <Route path="/home/VideoCall" element={<VideoCall />} />}
+        {isUserSignedIn && <Route path="/groupchat" element={<ChatPage />} />}
+        {isUserSignedIn && <Route path="videochat" element={<VideoCall />} />}
         {isUserSignedIn && <Route path="/room/:roomID" element={<Room />} />}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<CoursesHome />} />
